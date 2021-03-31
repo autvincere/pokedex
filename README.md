@@ -6,7 +6,7 @@ La API utilizada es proporcionada por :
 * [PokeApi The RESTful Pokémon API](https://pokeapi.co/) 
 
 ## Versión en producción 😎
-[Click aquí](#) - Deploy en Vercel. (Todavia no)
+[Click aquí](https://pokedex-alpha-ten.vercel.app/) - Deploy en Vercel.
 
 
 ## Comenzando 🚀
