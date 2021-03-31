@@ -1,14 +1,23 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, CardContent, CardActions, CardMedia, CardActionArea, Button, Grid } from '@material-ui/core'
+import {
+     Card,
+     Typography,
+     CardContent,
+     // CardActions,
+     CardMedia,
+     CardActionArea,
+     // Button,
+     Grid
+} from '@material-ui/core'
 
 const useStyles = makeStyles({
      container: {
-          marginTop:'20px',
+          marginTop: '20px',
      },
      root: {
-         maxWidth: 275,
-         
+          maxWidth: 275,
+
      },
      bullet: {
           display: 'inline-block',
@@ -24,15 +33,15 @@ const useStyles = makeStyles({
 });
 
 
-const Pokemon = ({ name, image}) => {
+const Pokemon = ({ name, image }) => {
      // console.log(url);
      const classes = useStyles();
 
 
      // const imagesPokemones = useSelector(state => state.favoriteCharacters)
      // const pokemon = useSelector( store => store.info )
-//  console.log(imagesPokemones);
-     
+     //  console.log(imagesPokemones);
+
      // const { front_default } = pokemon.other["official-artwork"]
      // console.log(front_default);
      return (
@@ -44,10 +53,10 @@ const Pokemon = ({ name, image}) => {
                               component="img"
                               alt="Contemplative Reptile"
                               height="258"
-                             image={image}
+                              image={image}
                               title="Contemplative Reptile"
                          />
-                    <CardContent>
+                         <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">
                                    {name}
                               </Typography>
