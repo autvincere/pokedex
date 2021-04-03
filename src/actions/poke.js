@@ -1,5 +1,4 @@
 import { types } from "../types/types";
-import { groupedByQuantity } from "../constants/index";
 import axios from "axios";
 
 export const getPokemons = (payload) => ({
