@@ -10,6 +10,7 @@ import {
      // Button,
      Grid
 } from '@material-ui/core'
+import { firstLetterCapital } from '../utils'
 
 const useStyles = makeStyles({
      container: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles({
      root: {
           maxWidth: 275,
 
+     },
+     Number: {
+          fontWeight:800,
      },
      bullet: {
           display: 'inline-block',
@@ -33,7 +37,7 @@ const useStyles = makeStyles({
 });
 
 
-const Pokemon = ({ name, image }) => {
+const Pokemon = ({ name, image, id }) => {
      // console.log(url);
      const classes = useStyles();
 
@@ -57,13 +61,13 @@ const Pokemon = ({ name, image }) => {
                               title="Contemplative Reptile"
                          />
                          <CardContent>
-                              <Typography gutterBottom variant="h5" component="h2">
-                                   {name}
+                         <Typography variant="body2" color="textSecondary" component="p" className={classes.Number}>
+                              #0{id}
                               </Typography>
-                              {/* <Typography variant="body2" color="textSecondary" component="p">
-                                   Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                   across all continents except Antarctica
-                              </Typography> */}
+                              <Typography gutterBottom variant="h5" component="h2">
+                                    {firstLetterCapital(name)}
+                              </Typography>
+                             
                          </CardContent>
                     </CardActionArea>
                     {/* <CardActions>

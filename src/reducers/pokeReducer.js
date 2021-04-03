@@ -1,14 +1,14 @@
 import { types } from "../types/types";
 
-// const initialState = {
-//   count: 0,
-//   next: null,
-//   previous: null,
-//   results: [],
-//   favoriteCharacters: []
-// };
+const initialState = {
+  allPokemons: [],
+  count: 0,
+  next: null,
+  previous: null,
+  results: []
+};
 
-export const pokeReducer = (state , action) => {
+export const pokeReducer = (state = initialState , action) => {
   switch (action.type) {
     case types.GET_POKEMONS:
       return {
@@ -18,10 +18,22 @@ export const pokeReducer = (state , action) => {
     case types.INFO_CARD_THUMB:
       return {
            ...state,
-           favoriteCharacters: [...state.favoriteCharacters, action.payload],
+           allPokemons: [...state.allPokemons, action.payload],
      //    unPokemon: action.payload
       };
-
+      case types.RESET_ALL_POKEMONS:
+        return {
+          ...state,
+          allPokemons: []
+       //    unPokemon: action.payload
+        };
+      case types.NEXT_POKEMONS:
+        return {
+             ...state,
+             ...action.payload,
+            //  offset: action.payload.offset
+       //    unPokemon: action.payload
+        };
     default:
       return state;
   }
