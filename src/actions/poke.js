@@ -1,4 +1,5 @@
 import { types } from "../types/types";
+import { useDispatch, useSelector } from 'react-redux'
 import axios from "axios";
 
 export const getPokemons = (payload) => ({
@@ -24,6 +25,18 @@ export const getPokemonsAction = () => async (dispatch, getState) => {
       type: types.GET_POKEMONS,
       payload: data,
     });
+    dispatch({
+     type: types.ERROR,
+         payload: {
+          error: false
+         }
+    });
+    dispatch({
+     type: types.LOADING,
+         payload: {
+          loading: false
+     },
+   });
        
     if (data.results.length) {
       data.results.map(async (pokedata) => {
@@ -32,17 +45,23 @@ export const getPokemonsAction = () => async (dispatch, getState) => {
         dispatch({
           type: types.INFO_CARD_THUMB,
           payload: {
+            data: responseDetails.data,
+            types:responseDetails.data.types,
             name: responseDetails.data.species.name,
             id: responseDetails.data.id,
-            image:
-              responseDetails.data.sprites.other["official-artwork"]
-                .front_default,
+            image: responseDetails.data.sprites.other["official-artwork"].front_default,
           },
         });
       });
     }
   } catch (error) {
-    console.log(error);
+       console.log(error);
+       dispatch({
+          type: types.ERROR,
+              payload: {
+               error: error
+              }
+         });
   }
 };
 
@@ -77,15 +96,15 @@ export const nextPokemonAction = () => async (dispatch, getState) => {
        const responseDetails = await axios.get(pokedata.url);
        // console.log(responseDetails);
        dispatch({
-         type: types.INFO_CARD_THUMB,
-         payload: {
-           name: responseDetails.data.species.name,
-           id: responseDetails.data.id,
-           image:
-             responseDetails.data.sprites.other["official-artwork"]
-               .front_default,
-         },
-       });
+        type: types.INFO_CARD_THUMB,
+        payload: {
+          data: responseDetails.data,
+          types:responseDetails.data.types,
+          name: responseDetails.data.species.name,
+          id: responseDetails.data.id,
+          image: responseDetails.data.sprites.other["official-artwork"].front_default,
+        },
+      });
      });
    }
        
@@ -123,15 +142,15 @@ export const previousPokemonAction = () => async (dispatch, getState) => {
              const responseDetails = await axios.get(pokedata.url);
              // console.log(responseDetails);
              dispatch({
-               type: types.INFO_CARD_THUMB,
-               payload: {
-                 name: responseDetails.data.species.name,
-                 id: responseDetails.data.id,
-                 image:
-                   responseDetails.data.sprites.other["official-artwork"]
-                     .front_default,
-               },
-             });
+              type: types.INFO_CARD_THUMB,
+              payload: {
+                data: responseDetails.data,
+                types:responseDetails.data.types,
+                name: responseDetails.data.species.name,
+                id: responseDetails.data.id,
+                image: responseDetails.data.sprites.other["official-artwork"].front_default,
+              },
+            });
            });
          }
              
@@ -139,97 +158,104 @@ export const previousPokemonAction = () => async (dispatch, getState) => {
           console.log(error);
         }
 }
-// export const getInfoCard = () => async( dispatch, getState ) => {
 
-//      try {
-//           // console.log('datos desde la api');
-//           // const res = await fetch(groupedByQuantity(20));
-//           // const data = await res.json();
-//           // const primaryData = data.results
-//           // console.log(primaryData)
-//           const primaryData = useSelector( state => state.results)
+export const autocompletePokemonAction = (pokeCounter, search) => async (dispatch, getState) => {
+  //   const offset = getState().pokemones.offset;
+    // console.log(offset);
 
-//           primaryData.map(async (pokedata) => {
-//                const responseDetails = await axios.get(pokedata.url);
-//                // console.log(responseDetails);
+  try {
+    // console.log('datos desde la api');
+    const res = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?offset=0&limit=${pokeCounter}`
+    );
+    const data = await res.json();
+    const resultsPokemons = data.results
 
-//                dispatch({
-//                     type: types.INFO_CARD_THUMB,
-//                     payload: {
-//                          name: responseDetails.data.species.name,
-//                          id: responseDetails.data.id,
-//                          image: responseDetails.data.sprites.other["official-artwork"].front_default
-//                     },
+  //   const resultSearch = resultsPokemons.filter( item => { 
+  //     const regex = new RegExp( search, 'gi')
+  //     return item.name.match(regex)
+  // })
+      // console.log(resultSearch)
 
-//                })
+      dispatch({
+        type: types.LOAD_AUTOCOMPLETE,
+        payload: resultsPokemons,
+      });
+      dispatch({
+       type: types.ERROR,
+           payload: {
+            error: false
+           }
+      });
+      dispatch({
+       type: types.LOADING,
+           payload: {
+            loading: false
+       },
+     });
+         
+    } catch (error) {
+         console.log(error);
+         dispatch({
+            type: types.ERROR,
+                payload: {
+                 error: error
+                }
+           });
+    }
+};
+  
+export const loadSearchedPokemonAction = (url) => async (dispatch) => {
+  //   const offset = getState().pokemones.offset;
+    // console.log(offset);
 
-//           })
+  try {
+    // console.log('datos desde la api');
+    const res = await fetch( url );
+    const data = await res.json();
+    const resultPokemon = data
+    console.log(resultPokemon);
+    
+  //   const resultSearch = resultsPokemons.filter( item => { 
+  //     const regex = new RegExp( search, 'gi')
+  //     return item.name.match(regex)
+  // })
+      // console.log(resultSearch)
 
-//      } catch (error) {
-//           console.log(error);
-//      }
-// }
-
-// export const getInfoCard = (url= 'https://pokeapi.co/api/v2/pokemon/1/') => async( dispatch ) => {
-
-//      try {
-//           console.log('datos desde la url');
-//           const res = await fetch(url);
-//           const data = await res.json();
-//           // console.log(data.sprites)
-//           dispatch({
-
-//                type: types.INFO_CARD_THUMB,
-//                payload: {
-//                     name: data.name,
-//                     id: data.id,
-//                     image: data.sprites.other["official-artwork"].front_default
-//                },
-
-//           })
-
-//      } catch (error) {
-//           console.log(error);
-//      }
-// }
-
-// export const fetchPokemonNameUrl = (url= 'https://pokeapi.co/api/v2/pokemon/1/') => async (dispatch) => {
-
-//      try {
-//           const response = await axios.get(url);
-//           const data = response.data.results;
-//           console.log(data);
-
-//           data.map(async (poke) => {
-//             const responseDetails = await axios.get(poke.url);
-
-//           //   let tempDetails = {
-//           //     name: responseDetails.data.species.name,
-//           //     baseExperience: responseDetails.data.base_experience,
-//           //     height: responseDetails.data.height,
-//           //     weight: responseDetails.data.weight,
-//           //     type: responseDetails.data.types[0].type.name,
-//           //     sprites: responseDetails.data.sprites.front_default,
-//           //   };
-
-//                // dispatch(tempDetails)
-
-//                dispatch({
-//                     type: types.INFO_CARD_THUMB,
-//                     payload: {
-//                          name: responseDetails.data.species.name,
-//                          baseExperience: responseDetails.data.base_experience,
-//                          height: responseDetails.data.height,
-//                          weight: responseDetails.data.weight,
-//                          type: responseDetails.data.types[0].type.name,
-//                          sprites: responseDetails.data.sprites.front_default,
-//                     },
-
-//                })
-//           });
-
-//      } catch (error) {
-//           console.log(error);
-//      }
-
-//    };
+      // dispatch({
+      //   type: types.SELECTED_POKEMON,
+      //   payload: resultPokemon,
+      // });
+      dispatch({
+        type: types.SELECTED_POKEMON,
+        payload: {
+          data: resultPokemon,
+          types:resultPokemon.types,
+          name: resultPokemon.species.name,
+          id: resultPokemon.id,
+          image: resultPokemon.sprites.other["official-artwork"].front_default,
+        },
+      });
+      dispatch({
+       type: types.ERROR,
+           payload: {
+            error: false
+           }
+      });
+      dispatch({
+       type: types.LOADING,
+           payload: {
+            loading: false
+       },
+     });
+         
+    } catch (error) {
+         console.log(error);
+         dispatch({
+            type: types.ERROR,
+                payload: {
+                 error: error
+                }
+           });
+    }
+  };

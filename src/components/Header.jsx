@@ -1,11 +1,9 @@
 import React from 'react'
 
+import { Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography'
 import IconPokebola from './IconPokebola'
-// import Grid from '@material-ui/core/Grid'
-// import Paper from '@material-ui/core/Paper';
-// import Box from '@material-ui/core/Box';
+import SearchPokemons from './SearchPokemons';
 // import { ReactComponent as iconPokebola } from '../assets/icons/pokebola.svg'
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +39,8 @@ const Header = () => {
                <IconPokebola className={classes.icon}/>
                <Typography variant="h4" className={classes.Typography}>
                     Que Pokemon Buscas?
-           </Typography>
+               </Typography>
+               <SearchPokemons />    
           </header>
      )
 }
