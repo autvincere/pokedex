@@ -6,7 +6,7 @@ La API utilizada es proporcionada por :
 * [PokeApi The RESTful Pokémon API](https://pokeapi.co/) 
 
 ## Versión en producción 😎
-[Click aquí](https://pokedex-alpha-ten.vercel.app/) - Deploy en Vercel.
+[Click aquí](https://pokedex-1ygnb2hye-autvincere.vercel.app/) - Deploy en Vercel.
 
 
 ## Comenzando 🚀
@@ -14,7 +14,7 @@ La API utilizada es proporcionada por :
 Estas instrucciones le permitirán obtener una copia del proyecto en funcionamiento en su máquina local para propósitos de desarrollo y pruebas.
 
 ```
-https://github.com/autvincere/grafico-valor-dolar-app.git
+https://github.com/autvincere/pokedex.git
 ```
 
 
