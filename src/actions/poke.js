@@ -1,5 +1,5 @@
 import { types } from "../types/types";
-import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
 import axios from "axios";
 
 export const getPokemons = (payload) => ({

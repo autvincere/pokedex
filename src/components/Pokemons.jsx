@@ -51,7 +51,10 @@ const Pokemons = () => {
      const loading = useSelector(state => state.pokemones.loading)
      const error = useSelector(state => state.pokemones.error)
 
-     const menorAMayor = pokemonData.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
+     const reduceDuplicate = pokemonData.filter((data,index)=>{
+          return pokemonData.indexOf(data) === index;
+        })
+     const menorAMayor = reduceDuplicate.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
      // console.log(menorAMayor);
 
      // console.log(menorAMayor);
@@ -112,7 +115,7 @@ const Pokemons = () => {
                     >
                          {
                               error ?
-                                   <Error /> :
+                                   '' :
                                    previous && <Button
                                         className={`${classes.marginButtonRight} ${classes.Button}`}
                                         color="default"
@@ -126,7 +129,7 @@ const Pokemons = () => {
 
                          {
                               error ?
-                                   <Error /> :
+                                   '':
                                    next && <Button
                                         className={classes.Button}
                                         color="default"

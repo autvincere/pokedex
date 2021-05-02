@@ -12,7 +12,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import {
      IconButton,
      TextField,
-     InputBase,
+     // InputBase,
      Paper,
      Divider,
 } from '@material-ui/core';
@@ -63,7 +63,7 @@ const SearchPokemons = () => {
      const setInput = (e) => {
           
           const title = document.querySelector('#search').value
-console.log(typeof title);
+console.log(title.length);
     if (title === ' ') {
      dispatch(getPokemonsAction())
     }
@@ -119,6 +119,10 @@ return (
                               label="Busca tu Pokemon..."
                               margin="normal"
                               variant="outlined"
+                              onKeyPress={(e) => {
+                                   // console.log(`Pressed keyCode ${e.key}`);
+                                   if (e.key === 'Enter') { e.preventDefault(); }
+                              }}
                               // onChange={ () => setInput() }
                          // onClick={anfn console.log('hice clic')}
 

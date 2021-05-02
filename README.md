@@ -1,4 +1,4 @@
-# Pokedex [![ash_cool](https://emoji.gg/assets/emoji/8138_ash_cool.gif)](https://emoji.gg/emoji/8138_ash_cool)
+# Pokedex
 
 Catálogo de Pokemones. La Data es obtenida mediante API Rest.
 
