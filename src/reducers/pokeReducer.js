@@ -3,13 +3,15 @@ import { types } from "../types/types";
 const initialState = {
   allPokemons: [],
   allPokemonsResult: [],
-  selectedPokemon:[],
+  selectedPokemon: [],
   count: 0,
   next: null,
   previous: null,
   results: [],
   loading: true,
   error: false,
+  searchMode: false,
+  searchValue:'',
 };
 
 export const pokeReducer = (state = initialState, action) => {
@@ -38,27 +40,43 @@ export const pokeReducer = (state = initialState, action) => {
         //  offset: action.payload.offset
         //    unPokemon: action.payload
       };
-      case types.LOAD_AUTOCOMPLETE:
-        return {
-          ...state,
-          allPokemonsResult:action.payload
-        };
-        case types.SELECTED_POKEMON:
-          return {
-            ...state,
-            selectedPokemon: action.payload,
-            allPokemons: [action.payload],
-          };
+    case types.LOAD_AUTOCOMPLETE:
+      return {
+        ...state,
+        allPokemonsResult: action.payload,
+      };
+    case types.SELECTED_POKEMON:
+      return {
+        ...state,
+        selectedPokemon: action.payload,
+        allPokemons: [action.payload],
+      };
     case types.ERROR:
       return {
         ...state,
         ...action.payload,
-      }
+      };
     case types.LOADING:
       return {
         ...state,
         ...action.payload,
       };
+    case types.SEARCH_MODE:
+      return {
+        ...state,
+        searchMode: action.payload,
+      };
+      case types.SEARCH_VALUE:
+        return {
+          ...state,
+          searchValue: action.payload,
+        };
+      case types.CLEAN_STATE:
+        return {
+          ...state,
+          allPokemons: [],
+          selectedPokemon: [],
+        };
     default:
       return state;
   }

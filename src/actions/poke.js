@@ -6,10 +6,21 @@ export const getPokemons = (payload) => ({
   type: types.GET_POKEMONS,
   payload,
 });
+
 export const getInfoCardThumb = (payload) => ({
   type: types.INFO_CARD_THUMB,
   payload,
 });
+
+export const searchMode = (payload) => ({
+  type: types.SEARCH_MODE,
+  payload
+})
+
+export const searchValue = (payload) => ({
+  type: types.SEARCH_VALUE,
+  payload
+})
 
 export const getPokemonsAction = () => async (dispatch, getState) => {
 //   const offset = getState().pokemones.offset;
@@ -20,11 +31,22 @@ export const getPokemonsAction = () => async (dispatch, getState) => {
       `https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`
     );
     const data = await res.json();
+    dispatch({
+      type: types.CLEAN_STATE,
+      payload: '',
+    });
+
+    dispatch({
+      type: types.SEARCH_MODE,
+      payload: false,
+    });
+
 //     console.log(data)
     dispatch({
       type: types.GET_POKEMONS,
       payload: data,
     });
+  
     dispatch({
      type: types.ERROR,
          payload: {
@@ -214,18 +236,7 @@ export const loadSearchedPokemonAction = (url) => async (dispatch) => {
     const res = await fetch( url );
     const data = await res.json();
     const resultPokemon = data
-    console.log(resultPokemon);
-    
-  //   const resultSearch = resultsPokemons.filter( item => { 
-  //     const regex = new RegExp( search, 'gi')
-  //     return item.name.match(regex)
-  // })
-      // console.log(resultSearch)
-
-      // dispatch({
-      //   type: types.SELECTED_POKEMON,
-      //   payload: resultPokemon,
-      // });
+    // console.log(resultPokemon);
       dispatch({
         type: types.SELECTED_POKEMON,
         payload: {

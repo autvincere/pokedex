@@ -8,11 +8,9 @@ import {
      Card,
      Typography,
      CardContent,
-     // CardActions,
      CardMedia,
      CardActionArea,
      Chip,
-     // Button,
      Grid
 } from '@material-ui/core'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -21,17 +19,23 @@ import PokemonDetail from './PokemonDetail';
 
 const useStyles = makeStyles((theme) => ({
      modal: {
-          // top:'4% !important',
           overflow:'scroll',
           height: '100%',
           maxWidth: '710px',
-          margin: '0 auto'
+          margin: '10px auto',
+          display: 'block',
+          // flexDirection: 'column',
+          // justifyContent: 'center',
+          [theme.breakpoints.down('xs')]: {
+               display: 'inherit',
+             }
      },
      paper: {
           backgroundColor: theme.palette.background.paper,
           border: '2px solid #000',
           boxShadow: theme.shadows[5],
           padding: theme.spacing(2, 4, 3),
+          position: 'relative',
      },
      Chip: {
           borderRadius: '7px',
@@ -165,7 +169,7 @@ const Pokemon = ({ name, image, id, types, data }) => {
                >
                     <Fade in={open}>
                          <div className={classes.paper}>
-                              <PokemonDetail data={data} />
+                              <PokemonDetail data={data} handleCloseModal={handleCloseModal}/>
                          </div>
                     </Fade>
                </Modal>

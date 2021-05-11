@@ -4,7 +4,7 @@ import uuid from "react-uuid";
 import {
      getPokemonsAction,
      previousPokemonAction,
-     nextPokemonAction
+     nextPokemonAction,
 } from '../actions/poke'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeSharpIcon from '@material-ui/icons/NavigateBeforeSharp';
@@ -50,10 +50,9 @@ const Pokemons = () => {
      const previous = useSelector(state => state.pokemones.previous)
      const loading = useSelector(state => state.pokemones.loading)
      const error = useSelector(state => state.pokemones.error)
+     const searchMode = useSelector(state => state.pokemones.searchMode)
 
-     const reduceDuplicate = pokemonData.filter((data,index)=>{
-          return pokemonData.indexOf(data) === index;
-        })
+     const reduceDuplicate = pokemonData.filter((data, index) => { return pokemonData.indexOf(data) === index; })
      const menorAMayor = reduceDuplicate.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
      // console.log(menorAMayor);
 
@@ -62,6 +61,10 @@ const Pokemons = () => {
      // const result = imagesPokemones.map(item => item.image)
      // const result = pokemones.filter(item => item.url)
      // console.log( result);
+     const handleReturn = () => {
+          dispatch(getPokemonsAction())
+          
+     }
 
      useEffect(() => {
           const fetchData = () => {
@@ -110,10 +113,9 @@ const Pokemons = () => {
                          justify="center"
                          alignItems="center"
                          alignContent="center"
-
-
                     >
-                         {
+
+                         {searchMode ? '' :
                               error ?
                                    '' :
                                    previous && <Button
@@ -128,21 +130,30 @@ const Pokemons = () => {
                          }
 
                          {
-                              error ?
-                                   '':
-                                   next && <Button
-                                        className={classes.Button}
-                                        color="default"
-                                        variant="contained"
-                                        endIcon={<NavigateNextIcon />}
-                                        onClick={() => dispatch(nextPokemonAction())}
-                                   >
-                                        Next
-                         </Button>
+                              searchMode ? '' :
+                                   error ? ''
+                                             :
+                                             next && <Button
+                                                  className={classes.Button}
+                                                  color="default"
+                                                  variant="contained"
+                                                  endIcon={<NavigateNextIcon />}
+                                                  onClick={() => dispatch(nextPokemonAction())}
+                                             >
+                                                  Next
+                                                  </Button>
                          }
-
-
-
+                         {
+                              searchMode && <Button
+                                             className={classes.Button}
+                                             color="default"
+                                             variant="contained"
+                                             endIcon={<NavigateNextIcon />}
+                                             onClick={() => handleReturn()}
+                                             >
+                                             Volver
+                                             </Button>
+                         }
 
                     </Grid>
                </Box>

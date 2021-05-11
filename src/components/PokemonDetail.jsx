@@ -7,21 +7,36 @@ import {
      Chip,
      Box,
      Grid,
-     Divider
+     Divider,
+     IconButton
 } from '@material-ui/core'
+
+import CloseIcon from '@material-ui/icons/Close';
+
 const useStyles = makeStyles((theme) => ({
      modal: {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          
+
      },
      paper: {
           backgroundColor: theme.palette.background.paper,
           border: '2px solid #000',
           boxShadow: theme.shadows[5],
           padding: theme.spacing(2, 4, 3),
+          position: 'relative',
           // overflow: 'scroll',
+     },
+     buttonClose: {
+          borderRadius: '50px',
+          border: '2px solid #b7b7b7',
+          position: 'absolute',
+          right: '2px',
+          top: '2px',
+          fontSize: '2.3em',
+          padding:'5px',
+          backgroundColor:'#ffffff2e'
      },
 
      Chip: {
@@ -55,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
      listAbilities: {
           display: 'flex',
           flexWrap: 'wrap',
-         
+
           // listStyle: 'circle',
           // justifyContent: 'space-between',
      },
@@ -70,9 +85,9 @@ const useStyles = makeStyles((theme) => ({
                width: '6px',
                borderRadius: '13px',
                margin: '0px 6px 2px 0px',
-               border:'2px solid #828282',
-               
-           }
+               border: '2px solid #828282',
+
+          }
      },
      WeightTextTitles: {
           fontWeight: '500',
@@ -99,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
      },
 }));
 
-const PokemonDetail = ({ data }) => {
+const PokemonDetail = ({ data, handleCloseModal }) => {
      // console.log(data);
      const classes = useStyles();
 
@@ -108,6 +123,9 @@ const PokemonDetail = ({ data }) => {
      const colors = types.map(typ => typ.type)
      return (
           <div>
+               <IconButton className={classes.buttonClose} aria-label="delete" onClick={() => handleCloseModal()}>
+                    <CloseIcon fontSize="large"/>
+               </IconButton>
                <Grid item className={classes.container}>
                     <div style={{ backgroundColor: '#f2f2f2', width: '100%', borderRadius: '5%' }}>
                          <Box className={classes.containerImage}>
@@ -176,20 +194,21 @@ const PokemonDetail = ({ data }) => {
                          abilities && <Typography align="center" gutterBottom variant="h5" className={classes.WeightTextTitles}> Abilities </Typography>
                     }
                     <Grid item>
-                    <Grid
-                     className={classes.listAbilities}
-                     direction="row"
-                     justify="center"
-                     alignItems="center"
-                     alignContent="center"
-                    >
-                         {
-                              abilities &&
-                              // console.log(abilities.map(item => item.ability.name))
-                              abilities.map(item => (<Grid item className={classes.abilities} key={uuid()}>{firstLetterCapital(item.ability.name)}</Grid>))
-                         }
+                         <Grid
+                              container
+                              className={classes.listAbilities}
+                              direction="row"
+                              justify="center"
+                              alignItems="center"
+                              alignContent="center"
+                         >
+                              {
+                                   abilities &&
+                                   // console.log(abilities.map(item => item.ability.name))
+                                   abilities.map(item => (<Grid item className={classes.abilities} key={uuid()}>{firstLetterCapital(item.ability.name)}</Grid>))
+                              }
                          </Grid>
-                         </Grid>
+                    </Grid>
                </Grid>
 
                <Divider className={classes.divider} />
@@ -200,11 +219,12 @@ const PokemonDetail = ({ data }) => {
                     }
 
                     <Grid
-                     className={classes.listAbilities}
-                     direction="row"
-                     justify="center"
-                     alignItems="center"
-                     alignContent="center"
+                         container
+                         className={classes.listAbilities}
+                         direction="row"
+                         justify="center"
+                         alignItems="center"
+                         alignContent="center"
                     >
                          {
                               moves &&

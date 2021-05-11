@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
      autocompletePokemonAction,
      loadSearchedPokemonAction,
-     getPokemonsAction
-
+     getPokemonsAction,
+     searchMode,
 } from '../actions/poke'
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import {
      IconButton,
      TextField,
-     // InputBase,
      Paper,
      Divider,
 } from '@material-ui/core';
@@ -43,11 +42,12 @@ const SearchPokemons = () => {
 
      let pokeCounter = useSelector(state => state.pokemones.count);
      let pokeAutoComplete = useSelector(state => state.pokemones.allPokemonsResult);
+     const value = useSelector( state => state.pokemones.searchValue)
      // console.log(pokeAutoComplete)
      const dispatch = useDispatch();
 
      const getValue = (e) => {
-          // if(e.type === 'keypress' && e.key !== 'Enter') return ;
+
           const title = document.querySelector('#search')
                .value
                .toLowerCase()
@@ -56,92 +56,73 @@ const SearchPokemons = () => {
           const pokeUrl = pokeSearched.map(poke => poke.url)
           // console.log(pokeUrl[0]);
           dispatch(loadSearchedPokemonAction(pokeUrl[0]))
+          dispatch(searchMode(true))
           // console.log(pokeSearched.map(poke => poke.url))
 
      }
 
-     const setInput = (e) => {
-          
-          const title = document.querySelector('#search').value
-console.log(title.length);
-    if (title === ' ') {
-     dispatch(getPokemonsAction())
-    }
-     }
-// const validateSearch = (e, search = document.querySelector('#search').value.toLowerCase().trim(),) => {
 
-//      // if (e.type === 'keyup' && e.key !== 'Enter') return;
-//      const words = search.match(/\w+/g);
-//      search = words && words.join(' ');
-//      console.log(search)
-//      e.preventDefault()
+     useEffect(() => {
+          const fetchData = () => {
+               dispatch(autocompletePokemonAction(pokeCounter))
 
-//      // dispatch(searchPokemonAction(pokeCounter,search))
-// }
-useEffect(() => {
-     const fetchData = () => {
-          dispatch(autocompletePokemonAction(pokeCounter))
-     }
-     fetchData()
-}, [dispatch, pokeCounter])
+          }
+          fetchData()
+     }, [dispatch, pokeCounter])
 
-const classes = useStyles();
+     const classes = useStyles();
 
-return (
-     <div>
+     return (
+          <div>
 
-          <Paper component="form" className={classes.root}>
-               {/* <InputBase
+               <Paper component="form" className={classes.root}>
+
+                    <Autocomplete
                          id="search"
                          className={classes.input}
-                         placeholder="Search your Pokemon"
-                         onKeyUp={ (e) => validateSearch(e) }
-                    /> */}
+                         onKeyPress={(e) => {
+                              if (e.key === 'Enter') { e.preventDefault() }
+                         }}
+                         // onChange={() => setInput()}
+                         // freeSolo
+                         options={pokeAutoComplete.map(pokemon => pokemon.name)}
+                         // getOptionLabel={option => option.name}
 
-               <Autocomplete
-                    id="search"
-                    className={classes.input}
-                    onKeyPress={(e) => {
-                         // console.log(`Pressed keyCode ${e.key}`);
-                         if (e.key === 'Enter') { e.preventDefault(); }
-                    }}
-                    onChange={ () => setInput() }
-                    freeSolo
-                    options={pokeAutoComplete.map(pokemon => pokemon.name)}
-                    // getOptionLabel={option => option.name}
-                   
-                    // value={value}
-                    // onKeyUp={ (e) => validateSearch(e) }
-                    renderInput={params => (
-                         <TextField
-                              {...params}
-                              id="searched"
-                              label="Busca tu Pokemon..."
-                              margin="normal"
-                              variant="outlined"
-                              onKeyPress={(e) => {
-                                   // console.log(`Pressed keyCode ${e.key}`);
-                                   if (e.key === 'Enter') { e.preventDefault(); }
-                              }}
-                              // onChange={ () => setInput() }
-                         // onClick={anfn console.log('hice clic')}
+                         // value={value}
+                         // onKeyUp={ (e) => validateSearch(e) }
+                         renderInput={ params => (
+                                                  <TextField
+                                                       {...params}
+                                                       id="searched"
+                                                       label="Busca tu Pokemon..."
+                                                       margin="normal"
+                                                       variant="outlined"
+                                                       onKeyUp={() => getValue()}
+                                                       // onChange= {() => getValue()}
+                                                       // onKeyPress={
+                                                       //      (e) => {
+                                                       //      // console.log(`Pressed keyCode ${e.key}`);
+                                                       //      if (e.key === 'Enter') { e.preventDefault() }
+                                                       // }}
+                                                  // onChange={ () => setInput() }
+                                                  // onClick={anfn console.log('hice clic')}
 
-                         >
-                         </TextField>
-                    )}
-               />
-               <Divider className={classes.divider} orientation="vertical" />
-               <IconButton
-                    color="secondary"
-                    className={classes.iconButton}
-                    aria-label="directions"
-                    onClick={() => getValue()}
-               >
-                    <SearchIcon />
-               </IconButton>
-          </Paper>
-     </div>
-)
+                                                  >
+                                                  </TextField>
+                         )}
+                    />
+                    <Divider className={classes.divider} orientation="vertical" />
+                    <IconButton
+                         color="secondary"
+                         className={classes.iconButton}
+                         aria-label="directions"
+                         onClick={() => getValue()}
+                    >
+                         <SearchIcon />
+                    </IconButton>
+               </Paper>
+          </div>
+     )
 }
 
 export default SearchPokemons

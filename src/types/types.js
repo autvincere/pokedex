@@ -8,6 +8,9 @@ export const types = {
      SELECTED_POKEMON: 'SELECTED_POKEMON',
      LOADING: 'LOADING',
      ERROR: 'ERROR',
+     SEARCH_MODE: 'SEARCH_MODE',
+     SEARCH_VALUE: 'SEARCH_VALUE',
+     CLEAN_STATE:'CLEAN_STATE'
 }
 
 // export default types
