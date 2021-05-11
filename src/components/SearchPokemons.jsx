@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
      autocompletePokemonAction,
      loadSearchedPokemonAction,
-     getPokemonsAction,
      searchMode,
 } from '../actions/poke'
 import { makeStyles } from '@material-ui/core/styles';
@@ -42,7 +41,7 @@ const SearchPokemons = () => {
 
      let pokeCounter = useSelector(state => state.pokemones.count);
      let pokeAutoComplete = useSelector(state => state.pokemones.allPokemonsResult);
-     const value = useSelector( state => state.pokemones.searchValue)
+     // const value = useSelector( state => state.pokemones.searchValue)
      // console.log(pokeAutoComplete)
      const dispatch = useDispatch();
 
