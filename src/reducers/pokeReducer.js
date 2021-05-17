@@ -11,7 +11,9 @@ const initialState = {
   loading: true,
   error: false,
   searchMode: false,
-  searchValue:'',
+  // searchValue:'',
+  favoritesPokemons: [],
+  setPage:'/',
 };
 
 export const pokeReducer = (state = initialState, action) => {
@@ -25,20 +27,16 @@ export const pokeReducer = (state = initialState, action) => {
       return {
         ...state,
         allPokemons: [...state.allPokemons, action.payload],
-        //    unPokemon: action.payload
       };
     case types.RESET_ALL_POKEMONS:
       return {
         ...state,
         allPokemons: [],
-        //    unPokemon: action.payload
       };
     case types.NEXT_POKEMONS:
       return {
         ...state,
         ...action.payload,
-        //  offset: action.payload.offset
-        //    unPokemon: action.payload
       };
     case types.LOAD_AUTOCOMPLETE:
       return {
@@ -48,9 +46,15 @@ export const pokeReducer = (state = initialState, action) => {
     case types.SELECTED_POKEMON:
       return {
         ...state,
-        selectedPokemon: action.payload,
-        allPokemons: [action.payload],
+        selectedPokemon: [action.payload],
+        // allPokemons: [action.payload],
       };
+      case types.CLEAN_SELECTED_POKEMON:
+        return {
+          ...state,
+          selectedPokemon: [],
+          // allPokemons: [action.payload],
+        };
     case types.ERROR:
       return {
         ...state,
@@ -66,16 +70,33 @@ export const pokeReducer = (state = initialState, action) => {
         ...state,
         searchMode: action.payload,
       };
-      case types.SEARCH_VALUE:
+    case types.SEARCH_VALUE:
+      return {
+        ...state,
+        searchValue: action.payload,
+      };
+    case types.CLEAN_STATE:
+      return {
+        ...state,
+        allPokemons: [],
+        // selectedPokemon: [],
+      };
+    case types.SET_FAVORITE_POKEMON:
+      return {
+        ...state,
+        favoritesPokemons: [...state.favoritesPokemons, action.payload],
+      };
+    case types.UNSET_FAVORITE_POKEMON:
+      return {
+        ...state,
+        favoritesPokemons: state.favoritesPokemons.filter(
+          (items) => items.id !== action.payload
+        ),
+      };
+      case types.SET_PAGE:
         return {
           ...state,
-          searchValue: action.payload,
-        };
-      case types.CLEAN_STATE:
-        return {
-          ...state,
-          allPokemons: [],
-          selectedPokemon: [],
+          setPage: action.payload,
         };
     default:
       return state;

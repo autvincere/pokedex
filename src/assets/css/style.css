@@ -4,3 +4,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.active{
+  font-weight: bolder;
+  color: green;
+  text-decoration: none;
+}

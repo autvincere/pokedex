@@ -5,9 +5,11 @@ import {
      getPokemonsAction,
      previousPokemonAction,
      nextPokemonAction,
+     cleanSelectedPokemon,
 } from '../actions/poke'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeSharpIcon from '@material-ui/icons/NavigateBeforeSharp';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -51,19 +53,18 @@ const Pokemons = () => {
      const loading = useSelector(state => state.pokemones.loading)
      const error = useSelector(state => state.pokemones.error)
      const searchMode = useSelector(state => state.pokemones.searchMode)
+     const selectedPokemon = useSelector(state => state.pokemones.selectedPokemon)
+     // console.log(Object.keys(selectedPokemon).length);
 
      const reduceDuplicate = pokemonData.filter((data, index) => { return pokemonData.indexOf(data) === index; })
      const menorAMayor = reduceDuplicate.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
      // console.log(menorAMayor);
 
      // console.log(menorAMayor);
-     //const pokemones = useSelector(store => store.pokemones.results)
-     // const result = imagesPokemones.map(item => item.image)
-     // const result = pokemones.filter(item => item.url)
-     // console.log( result);
      const handleReturn = () => {
+          dispatch(cleanSelectedPokemon())
           dispatch(getPokemonsAction())
-          
+
      }
 
      useEffect(() => {
@@ -84,14 +85,13 @@ const Pokemons = () => {
                alignContent="center"
           //   wrap="nowrap"
           >
-
-
                {
                     loading ?
                          <Loader /> :
                          error ?
                               <Error /> :
-                              menorAMayor.map(item => (
+                              Object.keys(selectedPokemon).length > 0 ?
+                              selectedPokemon.map(item => (
                                    <Pokemon
                                         key={uuid()}
                                         name={item.name}
@@ -100,9 +100,18 @@ const Pokemons = () => {
                                         data={item.data}
                                         types={item.types}
                                    />
-
                               ))
-
+                              :
+                              menorAMayor.map(item => (
+                                        <Pokemon
+                                             key={uuid()}
+                                             name={item.name}
+                                             image={item.image}
+                                             id={item.id}
+                                             data={item.data}
+                                             types={item.types}
+                                        />
+                                   ))
                }
 
                <Box mt={6} className={classes.containerButtons}>
@@ -132,26 +141,26 @@ const Pokemons = () => {
                          {
                               searchMode ? '' :
                                    error ? ''
-                                             :
-                                             next && <Button
-                                                  className={classes.Button}
-                                                  color="default"
-                                                  variant="contained"
-                                                  endIcon={<NavigateNextIcon />}
-                                                  onClick={() => dispatch(nextPokemonAction())}
-                                             >
-                                                  Next
-                                                  </Button>
-                         }
-                         {
-                              searchMode && <Button
+                                        :
+                                        next && <Button
                                              className={classes.Button}
                                              color="default"
                                              variant="contained"
                                              endIcon={<NavigateNextIcon />}
-                                             onClick={() => handleReturn()}
-                                             >
-                                             Volver
+                                             onClick={() => dispatch(nextPokemonAction())}
+                                        >
+                                             Next
+                                                  </Button>
+                         }
+                         {
+                              searchMode && <Button
+                                   className={classes.Button}
+                                   color="default"
+                                   variant="contained"
+                                   endIcon={<ArrowBackIcon />}
+                                   onClick={() => handleReturn()}
+                              >
+                                   Volver
                                              </Button>
                          }
 

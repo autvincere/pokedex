@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState ,useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
+     setPage,
      autocompletePokemonAction,
      loadSearchedPokemonAction,
      searchMode,
@@ -38,15 +40,22 @@ const useStyles = makeStyles((theme) => ({
      },
 }));
 const SearchPokemons = () => {
+     const [search, setSearch] = useState("");
 
+     const history = useHistory();
      let pokeCounter = useSelector(state => state.pokemones.count);
      let pokeAutoComplete = useSelector(state => state.pokemones.allPokemonsResult);
-     // const value = useSelector( state => state.pokemones.searchValue)
      // console.log(pokeAutoComplete)
      const dispatch = useDispatch();
 
+     const handlePress = (e,value) => {
+          if (e.key === 'Enter') { e.preventDefault() }
+          //history.push("/");
+          // value ? setSearch(value.tag) : setSearch(e.target.value)
+     }
+    
      const getValue = (e) => {
-
+          history.push("/");
           const title = document.querySelector('#search')
                .value
                .toLowerCase()
@@ -56,9 +65,11 @@ const SearchPokemons = () => {
           // console.log(pokeUrl[0]);
           dispatch(loadSearchedPokemonAction(pokeUrl[0]))
           dispatch(searchMode(true))
-          // console.log(pokeSearched.map(poke => poke.url))
-
+          dispatch(setPage('/'))
+          setSearch('')
+          // history.push("/");
      }
+
 
 
      useEffect(() => {
@@ -79,9 +90,8 @@ const SearchPokemons = () => {
                     <Autocomplete
                          id="search"
                          className={classes.input}
-                         onKeyPress={(e) => {
-                              if (e.key === 'Enter') { e.preventDefault() }
-                         }}
+                         onKeyPress={handlePress}
+                         value={search}
                          // onChange={() => setInput()}
                          // freeSolo
                          options={pokeAutoComplete.map(pokemon => pokemon.name)}

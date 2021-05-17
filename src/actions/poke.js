@@ -22,6 +22,25 @@ export const searchValue = (payload) => ({
   payload
 })
 
+export const SetFavoritePokemon = (payload) => ({
+  type: types.SET_FAVORITE_POKEMON,
+  payload
+})
+
+export const UnSetFavoritePokemon = (payload) => ({
+  type: types.UNSET_FAVORITE_POKEMON,
+  payload
+})
+
+export const setPage = (payload) => ({
+  type: types.SET_PAGE,
+  payload
+})
+export const cleanSelectedPokemon = (payload) => ({
+  type: types.CLEAN_SELECTED_POKEMON,
+  payload
+})
+
 export const getPokemonsAction = () => async (dispatch, getState) => {
 //   const offset = getState().pokemones.offset;
   // console.log(offset);

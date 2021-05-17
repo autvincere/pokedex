@@ -4,6 +4,7 @@ import { Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import IconPokebola from './IconPokebola'
 import SearchPokemons from './SearchPokemons';
+import TabsMenu from './TabsMenu';
 // import { ReactComponent as iconPokebola } from '../assets/icons/pokebola.svg'
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +41,8 @@ const Header = () => {
                <Typography variant="h4" className={classes.Typography}>
                     Que Pokemon Buscas?
                </Typography>
-               <SearchPokemons />    
+               <SearchPokemons />
+               <TabsMenu />
           </header>
      )
 }

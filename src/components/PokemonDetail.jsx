@@ -1,4 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import {
+     SetFavoritePokemon,
+     UnSetFavoritePokemon
+} from '../actions/poke'
 import uuid from "react-uuid";
 import { firstLetterCapital, equivalency } from '../utils'
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +17,7 @@ import {
 } from '@material-ui/core'
 
 import CloseIcon from '@material-ui/icons/Close';
+import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles((theme) => ({
      modal: {
@@ -115,12 +121,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PokemonDetail = ({ data, handleCloseModal }) => {
-     // console.log(data);
+
+     const favoritesPokemons = useSelector(state => state.pokemones.favoritesPokemons)
+
+     const [favorite, setFavorite] = useState(false);
      const classes = useStyles();
+     const dispatch = useDispatch();
 
      const { types, weight, height, base_experience, abilities, moves, name, id } = data
      const image = data.sprites.other["official-artwork"].front_default
      const colors = types.map(typ => typ.type)
+
+     const handleSetFavorite = () => {
+          dispatch(SetFavoritePokemon(data))
+          setFavorite(true);
+     }
+     const handleDeleteFavorite = (id) => {
+          dispatch(UnSetFavoritePokemon(id))
+          setFavorite(false);
+     };
+     
+     const isFavorite = () => {
+          const result = favoritesPokemons.filter(favoritePokemon => favoritePokemon.id === id)
+          // result.length ?? setFavorite(true)
+          if (result.length) {
+               setFavorite(true);
+           }
+     }
+
+     useEffect(() => {
+          isFavorite();
+     })
+
      return (
           <div>
                <IconButton className={classes.buttonClose} aria-label="delete" onClick={() => handleCloseModal()}>
@@ -139,7 +171,15 @@ const PokemonDetail = ({ data, handleCloseModal }) => {
                     </Typography>
                     <Typography align="center" gutterBottom variant="h3">
                          {firstLetterCapital(name)}
+                         {
+                              favorite
+                                   ? <StarIcon onClick={() => handleDeleteFavorite(id)} color="secondary"/>
+                                   :  <StarIcon onClick={handleSetFavorite} />
+                         }
+                        
+                         
                     </Typography>
+                    
                     <Divider className={classes.divider} />
 
                </Grid>

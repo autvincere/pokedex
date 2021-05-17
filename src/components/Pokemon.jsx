@@ -74,16 +74,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Pokemon = ({ name, image, id, types, data }) => {
-
-     // console.log(types);
-     // const colors = data.types.map(type => type.type.name)
-     //     console.log(colors); 
+     // console.log(image)
      const colors = types.map(typ => typ.type)
-
      //  console.log( colors);
 
      const classes = useStyles();
-     // const [modal, setModal] = useState(false)
+
      const [open, setOpen] = useState(false);
 
      const handleCloseModal = () => {
@@ -155,7 +151,6 @@ const Pokemon = ({ name, image, id, types, data }) => {
                     </CardActionArea>
                </Card>
                <Modal
-                    // style={{ overflow: 'scroll' }}
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
                     className={classes.modal}
