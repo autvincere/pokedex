@@ -5,11 +5,9 @@ import {
      getPokemonsAction,
      previousPokemonAction,
      nextPokemonAction,
-     cleanSelectedPokemon,
 } from '../actions/poke'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeSharpIcon from '@material-ui/icons/NavigateBeforeSharp';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -52,7 +50,7 @@ const Pokemons = () => {
      const previous = useSelector(state => state.pokemones.previous)
      const loading = useSelector(state => state.pokemones.loading)
      const error = useSelector(state => state.pokemones.error)
-     const searchMode = useSelector(state => state.pokemones.searchMode)
+     
      const selectedPokemon = useSelector(state => state.pokemones.selectedPokemon)
      // console.log(Object.keys(selectedPokemon).length);
 
@@ -61,11 +59,7 @@ const Pokemons = () => {
      // console.log(menorAMayor);
 
      // console.log(menorAMayor);
-     const handleReturn = () => {
-          dispatch(cleanSelectedPokemon())
-          dispatch(getPokemonsAction())
-
-     }
+   
 
      useEffect(() => {
           const fetchData = () => {
@@ -124,7 +118,7 @@ const Pokemons = () => {
                          alignContent="center"
                     >
 
-                         {searchMode ? '' :
+                         {
                               error ?
                                    '' :
                                    previous && <Button
@@ -139,7 +133,6 @@ const Pokemons = () => {
                          }
 
                          {
-                              searchMode ? '' :
                                    error ? ''
                                         :
                                         next && <Button
@@ -152,17 +145,7 @@ const Pokemons = () => {
                                              Next
                                                   </Button>
                          }
-                         {
-                              searchMode && <Button
-                                   className={classes.Button}
-                                   color="default"
-                                   variant="contained"
-                                   endIcon={<ArrowBackIcon />}
-                                   onClick={() => handleReturn()}
-                              >
-                                   Volver
-                                             </Button>
-                         }
+                     
 
                     </Grid>
                </Box>

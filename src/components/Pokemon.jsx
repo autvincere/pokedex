@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import useModal from '../custom-hooks/useModal'
 import uuid from "react-uuid";
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -74,24 +75,26 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Pokemon = ({ name, image, id, types, data }) => {
+
+     const { open, handleCloseModal, handleOpenModal } = useModal()
      // console.log(image)
      const colors = types.map(typ => typ.type)
      //  console.log( colors);
 
      const classes = useStyles();
 
-     const [open, setOpen] = useState(false);
+     // const [open, setOpen] = useState(false);
 
-     const handleCloseModal = () => {
-          setOpen(false);
-     }
-     const handleOpenModal = () => {
-          setOpen(true);
-     }
+     // const handleCloseModal = () => {
+     //      setOpen(false);
+     // }
+     // const handleOpenModal = () => {
+     //      setOpen(true);
+     // }
 
      return (
           <Grid item className={classes.container}>
-               <Card className={classes.root}>
+               <Card className={classes.root} elevation={3}>
                     <CardActionArea onClick={handleOpenModal}>
                          <div style={{ backgroundColor: '#f2f2f2', borderRadius:'100%', width: '93%', margin: '0 auto',}}>
                          <CardMedia
@@ -150,6 +153,7 @@ const Pokemon = ({ name, image, id, types, data }) => {
 
                     </CardActionArea>
                </Card>
+
                <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
@@ -164,7 +168,10 @@ const Pokemon = ({ name, image, id, types, data }) => {
                >
                     <Fade in={open}>
                          <div className={classes.paper}>
-                              <PokemonDetail data={data} handleCloseModal={handleCloseModal}/>
+                              <PokemonDetail
+                                   data={data}
+                                   handleCloseModal={handleCloseModal}
+                              />
                          </div>
                     </Fade>
                </Modal>

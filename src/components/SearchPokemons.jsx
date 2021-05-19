@@ -1,12 +1,12 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-     setPage,
-     autocompletePokemonAction,
+     // setPage,
+     // autocompletePokemonAction,
      loadSearchedPokemonAction,
-     searchMode,
+     // searchMode,
 } from '../actions/poke'
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -40,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
      },
 }));
 const SearchPokemons = () => {
-     const [search, setSearch] = useState("");
+     const [search, setSearch] = useState({});
 
      const history = useHistory();
-     let pokeCounter = useSelector(state => state.pokemones.count);
-     let pokeAutoComplete = useSelector(state => state.pokemones.allPokemonsResult);
+     // let pokeCounter = useSelector(state => state.pokemones.count);
+     let pokeAutoComplete = useSelector(state => state.pokemones.results);
      // console.log(pokeAutoComplete)
      const dispatch = useDispatch();
 
@@ -55,30 +55,32 @@ const SearchPokemons = () => {
      }
     
      const getValue = (e) => {
-          history.push("/");
+          // history.push("/");
           const title = document.querySelector('#search')
                .value
                .toLowerCase()
                .trim();
+          
           const pokeSearched = pokeAutoComplete.filter(pokemon => pokemon.name === title)
           const pokeUrl = pokeSearched.map(poke => poke.url)
           // console.log(pokeUrl[0]);
           dispatch(loadSearchedPokemonAction(pokeUrl[0]))
-          dispatch(searchMode(true))
-          dispatch(setPage('/'))
-          setSearch('')
-          // history.push("/");
+          // dispatch(searchMode(true))
+          // dispatch(setPage('/'))
+          setSearch({})
+          // document.getElementById('search').value = " "
+          history.push("/search");
      }
 
 
 
-     useEffect(() => {
-          const fetchData = () => {
-               dispatch(autocompletePokemonAction(pokeCounter))
+     // useEffect(() => {
+     //      const fetchData = () => {
+     //           dispatch(autocompletePokemonAction(pokeCounter))
 
-          }
-          fetchData()
-     }, [dispatch, pokeCounter])
+     //      }
+     //      fetchData()
+     // }, [dispatch, pokeCounter])
 
      const classes = useStyles();
 
@@ -93,7 +95,7 @@ const SearchPokemons = () => {
                          onKeyPress={handlePress}
                          value={search}
                          // onChange={() => setInput()}
-                         // freeSolo
+                         freeSolo
                          options={pokeAutoComplete.map(pokemon => pokemon.name)}
                          // getOptionLabel={option => option.name}
 
@@ -107,6 +109,7 @@ const SearchPokemons = () => {
                                                        margin="normal"
                                                        variant="outlined"
                                                        onKeyUp={() => getValue()}
+                                             
                                                        // onChange= {() => getValue()}
                                                        // onKeyPress={
                                                        //      (e) => {

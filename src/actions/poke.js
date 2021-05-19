@@ -17,11 +17,6 @@ export const searchMode = (payload) => ({
   payload
 })
 
-export const searchValue = (payload) => ({
-  type: types.SEARCH_VALUE,
-  payload
-})
-
 export const SetFavoritePokemon = (payload) => ({
   type: types.SET_FAVORITE_POKEMON,
   payload

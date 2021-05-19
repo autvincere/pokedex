@@ -11,7 +11,6 @@ const initialState = {
   loading: true,
   error: false,
   searchMode: false,
-  // searchValue:'',
   favoritesPokemons: [],
   setPage:'/',
 };
@@ -69,11 +68,6 @@ export const pokeReducer = (state = initialState, action) => {
       return {
         ...state,
         searchMode: action.payload,
-      };
-    case types.SEARCH_VALUE:
-      return {
-        ...state,
-        searchValue: action.payload,
       };
     case types.CLEAN_STATE:
       return {
