@@ -26,10 +26,10 @@ const TabsMenu = () => {
                     {/* {console.log(history.location.pathname)} */}
 
                     <Tab
-                         value={'/'}
+                         value={'/pokemons'}
                          label="Pokemons"
                          component={Link}
-                         to={'/'}
+                         to={'/pokemons'}
                     />
                     <Tab
                          value={'/favorites'}

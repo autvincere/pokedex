@@ -50,9 +50,6 @@ const Pokemons = () => {
      const previous = useSelector(state => state.pokemones.previous)
      const loading = useSelector(state => state.pokemones.loading)
      const error = useSelector(state => state.pokemones.error)
-     
-     const selectedPokemon = useSelector(state => state.pokemones.selectedPokemon)
-     // console.log(Object.keys(selectedPokemon).length);
 
      const reduceDuplicate = pokemonData.filter((data, index) => { return pokemonData.indexOf(data) === index; })
      const menorAMayor = reduceDuplicate.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
@@ -84,18 +81,6 @@ const Pokemons = () => {
                          <Loader /> :
                          error ?
                               <Error /> :
-                              Object.keys(selectedPokemon).length > 0 ?
-                              selectedPokemon.map(item => (
-                                   <Pokemon
-                                        key={uuid()}
-                                        name={item.name}
-                                        image={item.image}
-                                        id={item.id}
-                                        data={item.data}
-                                        types={item.types}
-                                   />
-                              ))
-                              :
                               menorAMayor.map(item => (
                                         <Pokemon
                                              key={uuid()}
