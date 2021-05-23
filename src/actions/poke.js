@@ -198,14 +198,14 @@ export const previousPokemonAction = () => async (dispatch, getState) => {
 export const autocompletePokemonAction =
   (pokeCounter, search) => async (dispatch, getState) => {
 
-    if (localStorage.getItem('offset=LOAD_AUTOCOMPLETE')) {
-      console.log('AUTOCOMPLETE guardado');
-      dispatch({
-           type: types.LOAD_AUTOCOMPLETE,
-           payload: JSON.parse(localStorage.getItem('offset=LOAD_AUTOCOMPLETE'))
-      })
-      return
- }
+//     if (localStorage.getItem('offset=LOAD_AUTOCOMPLETE')) {
+//       // console.log('AUTOCOMPLETE guardado');
+//       dispatch({
+//            type: types.LOAD_AUTOCOMPLETE,
+//            payload: JSON.parse(localStorage.getItem('offset=LOAD_AUTOCOMPLETE'))
+//       })
+//       return
+//  }
 
     try {
       // console.log('datos desde la api');
@@ -219,7 +219,7 @@ export const autocompletePokemonAction =
         type: types.LOAD_AUTOCOMPLETE,
         payload: resultsPokemons,
       });
-      localStorage.setItem('offset=LOAD_AUTOCOMPLETE', JSON.stringify(resultsPokemons))
+      // localStorage.setItem('offset=LOAD_AUTOCOMPLETE', JSON.stringify(resultsPokemons))
 
       dispatch({
         type: types.ERROR,
