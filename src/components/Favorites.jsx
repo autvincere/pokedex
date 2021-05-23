@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-     searchMode,
-} from '../actions/poke'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import uuid from "react-uuid";
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,17 +15,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Favorites = () => {
-     const dispatch = useDispatch();
      const classes = useStyles();
      const favoritesPokemons = useSelector(state => state.pokemones.favoritesPokemons)
      // console.log(Object.keys(favoritesPokemons).length);
-
-     useEffect(() => {
-          const fetchData = () => {
-               dispatch(searchMode(true))
-          }
-          fetchData()
-     }, [dispatch])
 
      return (
           <>
@@ -50,8 +39,7 @@ const Favorites = () => {
                                         item.data = item
                                         // console.log(item.data);
                                         const image = item.data.sprites.other["official-artwork"].front_default
-                                        // const {types, weight, height, base_experience, abilities, moves, name, id} = item
-                                        // const { types, weight, height, base_experience, abilities, moves, name, id } = item
+
                                    return (
                                          <Pokemon
                                               key={uuid()}

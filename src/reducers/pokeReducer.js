@@ -12,7 +12,8 @@ const initialState = {
   error: false,
   searchMode: false,
   favoritesPokemons: [],
-  setPage:'/',
+  setPage: '/',
+  searchValue:''
 };
 
 export const pokeReducer = (state = initialState, action) => {
@@ -64,11 +65,6 @@ export const pokeReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
       };
-    case types.SEARCH_MODE:
-      return {
-        ...state,
-        searchMode: action.payload,
-      };
     case types.CLEAN_STATE:
       return {
         ...state,
@@ -92,6 +88,11 @@ export const pokeReducer = (state = initialState, action) => {
           ...state,
           setPage: action.payload,
         };
+        case types.SEARCH_VALUE:
+          return {
+            ...state,
+            searchValue: action.payload,
+          };
     default:
       return state;
   }

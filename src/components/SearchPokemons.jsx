@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
      // setPage,
-     // autocompletePokemonAction,
+     autocompletePokemonAction,
      loadSearchedPokemonAction,
-     // searchMode,
+     searchValue
 } from '../actions/poke'
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -40,87 +40,81 @@ const useStyles = makeStyles((theme) => ({
      },
 }));
 const SearchPokemons = () => {
-     const [search, setSearch] = useState({});
+
+     const value = useSelector(state => state.pokemones.searchValue);
 
      const history = useHistory();
-     // let pokeCounter = useSelector(state => state.pokemones.count);
-     let pokeAutoComplete = useSelector(state => state.pokemones.results);
+     let pokeCounter = useSelector(state => state.pokemones.count);
+     let pokeAutoComplete = useSelector(state => state.pokemones.allPokemonsResult);
      // console.log(pokeAutoComplete)
      const dispatch = useDispatch();
 
-     const handlePress = (e,value) => {
+     const handlePress = (e, value) => {
           if (e.key === 'Enter') { e.preventDefault() }
-          //history.push("/");
-          // value ? setSearch(value.tag) : setSearch(e.target.value)
      }
-    
+     const onChange = (_, value) => {
+          dispatch(searchValue(value))
+     };
+     // const clearSelected = () => {
+     //      dispatch(searchValue([]))
+     // };
+
+
+     const cleanSearch = () => {
+          const result = document.querySelector('#search')
+          // console.log('limpieza');
+          return result.value = ''
+     }
+
      const getValue = (e) => {
-          // history.push("/");
           const title = document.querySelector('#search')
                .value
                .toLowerCase()
                .trim();
-          
+          // if (value !== title) {
+          //      setValue(title)
           const pokeSearched = pokeAutoComplete.filter(pokemon => pokemon.name === title)
           const pokeUrl = pokeSearched.map(poke => poke.url)
-          // console.log(pokeUrl[0]);
           dispatch(loadSearchedPokemonAction(pokeUrl[0]))
-          // dispatch(searchMode(true))
-          // dispatch(setPage('/'))
-          setSearch({})
-          // document.getElementById('search').value = " "
+          // document.querySelector('#search').setAttribute('value','');
+          cleanSearch()
           history.push("/search");
+          // }
      }
 
-
-
-     // useEffect(() => {
-     //      const fetchData = () => {
-     //           dispatch(autocompletePokemonAction(pokeCounter))
-
-     //      }
-     //      fetchData()
-     // }, [dispatch, pokeCounter])
+     useEffect(() => {
+          const fetchData = () => {
+               dispatch(autocompletePokemonAction(pokeCounter))
+          }
+          fetchData()
+     }, [dispatch, pokeCounter])
 
      const classes = useStyles();
 
      return (
           <div>
-
+               {/* <button onClick={clearSelected}>Clear selected</button> */}
                <Paper component="form" className={classes.root}>
 
                     <Autocomplete
                          id="search"
-                         className={classes.input}
                          onKeyPress={handlePress}
-                         value={search}
-                         // onChange={() => setInput()}
-                         freeSolo
                          options={pokeAutoComplete.map(pokemon => pokemon.name)}
-                         // getOptionLabel={option => option.name}
-
-                         // value={value}
-                         // onKeyUp={ (e) => validateSearch(e) }
-                         renderInput={ params => (
-                                                  <TextField
-                                                       {...params}
-                                                       id="searched"
-                                                       label="Busca tu Pokemon..."
-                                                       margin="normal"
-                                                       variant="outlined"
-                                                       onKeyUp={() => getValue()}
-                                             
-                                                       // onChange= {() => getValue()}
-                                                       // onKeyPress={
-                                                       //      (e) => {
-                                                       //      // console.log(`Pressed keyCode ${e.key}`);
-                                                       //      if (e.key === 'Enter') { e.preventDefault() }
-                                                       // }}
-                                                  // onChange={ () => setInput() }
-                                                  // onClick={anfn console.log('hice clic')}
-
-                                                  >
-                                                  </TextField>
+                         className={classes.input}
+                         value={value}
+                         // freeSolo
+                         onChange={onChange}
+                         // onChange={(e, value) => console.log(value)}
+                         renderInput={params => (
+                              <TextField
+                                   {...params}
+                                   // value={value}
+                                   label="Busca tu Pokemon"
+                                   margin="normal"
+                                   variant="outlined"
+                                   onKeyUp={() => getValue()}
+                              >
+                              </TextField>
                          )}
                     />
                     <Divider className={classes.divider} orientation="vertical" />
