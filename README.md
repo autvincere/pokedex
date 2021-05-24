@@ -6,7 +6,7 @@ La API utilizada es proporcionada por :
 * [PokeApi The RESTful Pokémon API](https://pokeapi.co/) 
 
 ## Versión en producción 😎
-[Click aquí](https://quizzical-hodgkin-f66af7.netlify.app/) - Deploy en Netlify.
+[Click aquí](https://pokev2-2u3kuzn35-autvincere.vercel.app/) - Deploy en Vercel.
 
 
 ## Comenzando 🚀
