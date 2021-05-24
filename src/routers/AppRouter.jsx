@@ -25,7 +25,7 @@ export const AppRouter = () => {
                               <Route exact path='/'>
                                    <Redirect to='/pokemons' />
                               </Route>
-                              {/* <Route exact path='*'> <h1>404 not found</h1> </Route> */}
+                              <Route exact path='*'> <h1>404 not found</h1> </Route>
                          </Suspense>
                     </Switch>
                </Layout>
